@@ -11,10 +11,3 @@
 
 ## Технологии
 Node.js, Express, JWT, bcryptjs, TypeScript, Bun
-
-## Быстрый старт
-1. Клонировать репозиторий:  
-```bash
-git clone https://github.com/chyngyz-sultanaliev/node.js-lesson-two.git
-cd node.js-lesson-two
-
