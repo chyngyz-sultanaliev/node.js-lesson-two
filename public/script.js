@@ -1,8 +1,8 @@
 // ----------------- CONFIG -----------------
 const API =
-  typeof process !== "undefined" && process.env.RENDER
-    ? process.env.RENDER
-    : process.env.BASE_URL;
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000/api/todo"
+    : "https://node-js-lesson-two.onrender.com/api/todo";
 
 let token = localStorage.getItem("token");
 
