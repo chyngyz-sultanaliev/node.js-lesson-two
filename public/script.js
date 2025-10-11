@@ -1,5 +1,9 @@
 // ----------------- CONFIG -----------------
-const BASE_URL = "http://localhost:5000/api/todo";
+const API =
+  typeof process !== "undefined" && process.env.RENDER
+    ? process.env.RENDER
+    : process.env.BASE_URL;
+
 let token = localStorage.getItem("token");
 
 // ----------------- DOM ELEMENTS -----------------
@@ -53,7 +57,7 @@ initialize();
 // ----------------- SIGNUP -----------------
 signupBtn.addEventListener("click", async () => {
   try {
-    const data = await fetch(`${BASE_URL}/signup`, {
+    const data = await fetch(`${API}/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -62,7 +66,9 @@ signupBtn.addEventListener("click", async () => {
       }),
     }).then((res) => res.json());
 
-    alert(data.message || (data.success ? "Успешно зарегистрированы!" : "Ошибка"));
+    alert(
+      data.message || (data.success ? "Успешно зарегистрированы!" : "Ошибка")
+    );
 
     // Авто-вход после успешной регистрации
     if (data.success) {
@@ -80,7 +86,7 @@ signupBtn.addEventListener("click", async () => {
 // ----------------- SIGNIN -----------------
 signinBtn.addEventListener("click", async () => {
   try {
-    const data = await fetch(`${BASE_URL}/signin`, {
+    const data = await fetch(`${API}/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -106,7 +112,7 @@ signinBtn.addEventListener("click", async () => {
 // ----------------- FETCH TODOS -----------------
 async function fetchTodos() {
   try {
-    const res = await fetchWithToken(`${BASE_URL}/list`);
+    const res = await fetchWithToken(`${API}/list`);
     console.log("Todos from server:", res);
     todoList.innerHTML = "";
 
@@ -128,18 +134,18 @@ async function fetchTodos() {
   }
 }
 
-
 // ----------------- SEARCH TODOS -----------------
 searchBtn.addEventListener("click", async () => {
   const query = searchQueryInput.value.trim();
   if (!query) return;
 
   try {
-    const data = await fetchWithToken(`${BASE_URL}/list/search?name=${query}`);
+    const data = await fetchWithToken(`${API}/list/search?name=${query}`);
     todoList.innerHTML = "";
 
     if (data.success && Array.isArray(data.data)) {
-      if (data.data.length === 0) todoList.innerHTML = "<li>Продукты не найдены</li>";
+      if (data.data.length === 0)
+        todoList.innerHTML = "<li>Продукты не найдены</li>";
       data.data.forEach((todo) => {
         const li = document.createElement("li");
         li.textContent = `${todo.name} — ${todo.price}`;
@@ -161,7 +167,7 @@ addTodoBtn.addEventListener("click", async () => {
   if (!name) return alert("Введите название продукта");
 
   try {
-    const data = await fetchWithToken(`${BASE_URL}/list`, {
+    const data = await fetchWithToken(`${API}/list`, {
       method: "POST",
       body: JSON.stringify({ name, price }),
     });
@@ -181,7 +187,7 @@ addTodoBtn.addEventListener("click", async () => {
 // ----------------- DOWNLOAD EXCEL -----------------
 downloadExcelBtn.addEventListener("click", async () => {
   try {
-    const res = await fetch(`${BASE_URL}/list/excel`, {
+    const res = await fetch(`${API}/list/excel`, {
       headers: { Authorization: "Bearer " + token },
     });
     if (res.status === 401) throw new Error("Unauthorized");
