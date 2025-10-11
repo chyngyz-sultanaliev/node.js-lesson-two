@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>Todo App</title>
+</head>
+<body>
+  <h1>Todo App</h1>
+
+  <!-- Авторизация -->
+  <section id="auth-section">
+    <h2>Регистрация / Вход</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button id="signup-btn">Sign Up</button>
+    <button id="signin-btn">Sign In</button>
+  </section>
+
+  <!-- Todo List -->
+  <section id="todo-section" style="display:none;">
+    <h2>Todo List</h2>
+
+    <!-- Добавление новой задачи -->
+    <input type="text" id="todo-title" placeholder="New Todo" />
+    <input type="number" id="todo-price" placeholder="Price" />
+    <button id="add-todo-btn">Add Todo</button>
+
+    <!-- Поиск -->
+    <input type="text" id="search-query" placeholder="Search by name" />
+    <button id="search-btn">Search</button>
+
+    <!-- Список задач -->
+    <ul id="todo-list"></ul>
+
+    <!-- Excel -->
+    <button id="download-excel-btn">Download Excel</button>
+
+    <!-- Logout -->
+    <button id="logout-btn">Logout</button>
+  </section>
+
+  <script src="./script.js"></script>
+</body>
+</html>

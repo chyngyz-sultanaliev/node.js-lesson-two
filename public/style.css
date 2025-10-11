@@ -1,0 +1,142 @@
+/* ---------- Общие стили ---------- */
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f9f9f9;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h1,
+h2 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* ---------- Inputs ---------- */
+input {
+  margin: 5px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* ---------- Buttons ---------- */
+button {
+  margin: 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* ---------- Sections ---------- */
+#auth-section,
+#todo-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+/* ---------- Todo List ---------- */
+#todo-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+#todo-list li {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  #auth-section,
+  #todo-section {
+    padding: 15px;
+  }
+
+  input,
+  button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+/* ---------- Заголовки ---------- */
+h1 {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+#todo-list li:hover {
+  background-color: #f0f8ff;
+  transition: background-color 0.2s;
+}
+
+#todo-section input,
+#todo-section button {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#todo-list li.empty {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+
+#todo-list li[data-price] {
+  font-weight: bold;
+}
+
+#download-excel-btn,
+#logout-btn {
+  background-color: #28a745;
+}
+
+#download-excel-btn:hover,
+#logout-btn:hover {
+  background-color: #1e7e34;
+}
+
+#auth-section input,
+#todo-section input {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+}
