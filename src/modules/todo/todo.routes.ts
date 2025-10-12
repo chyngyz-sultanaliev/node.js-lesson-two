@@ -1,11 +1,14 @@
 import { Router } from "express";
 import todoControllers from "./todo.controllers";
-import { signin, signup } from "../auth/auth.controllers";
+import { requestResetPassword, resetPassword, signin, signup, verifyResetCode } from "../auth/auth.controllers";
 import { authMiddleware } from "../auth/auth.middleware";
 
 const todoRoutes = Router();
 todoRoutes.post("/signup", signup);
 todoRoutes.post("/signin", signin);
+todoRoutes.post("/request-reset-password", requestResetPassword);
+todoRoutes.post("/verify-reset-code", verifyResetCode);
+todoRoutes.post("/reset-password", resetPassword);             
 
 todoRoutes.get("/list",  authMiddleware, todoControllers.getData);
 todoRoutes.get("/list/search", authMiddleware,  todoControllers.searchData);

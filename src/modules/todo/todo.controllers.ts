@@ -66,7 +66,7 @@ const updateData = (req: Request, res: Response) => {
 
     res.status(200).json({
       message: "Продукт успешно обновлены",
-      data,
+      data: data[index]
     });
   } catch (error) {
     res.status(500).json({

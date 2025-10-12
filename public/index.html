@@ -1,46 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./style.css" />
-  <title>Todo App</title>
-</head>
-<body>
-  <h1>Todo App</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Todo App</title>
+  </head>
+  <body>
+    <h1>Todo App</h1>
 
-  <!-- Авторизация -->
-  <section id="auth-section">
-    <h2>Регистрация / Вход</h2>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
-    <button id="signup-btn">Sign Up</button>
-    <button id="signin-btn">Sign In</button>
-  </section>
+    <!-- Авторизация -->
+    <section id="auth-section">
+      <h2>Регистрация / Вход</h2>
+      <input type="email" id="email" placeholder="email" />
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button id="signup-btn">Sign Up</button>
+      <button id="signin-btn">Sign In</button>
+    </section>
+    <!-- Reset Password Modal -->
+    <div
+      id="reset-password-modal"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div
+        style="
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          width: 300px;
+        "
+      >
+        <h3>Сброс пароля</h3>
 
-  <!-- Todo List -->
-  <section id="todo-section" style="display:none;">
-    <h2>Todo List</h2>
+        <!-- Step 1: Запрос email -->
+        <div id="step-email">
+          <input
+            type="email"
+            id="reset-email"
+            placeholder="Введите ваш email"
+          />
+          <button id="send-reset-code-btn">Отправить код</button>
+        </div>
 
-    <!-- Добавление новой задачи -->
-    <input type="text" id="todo-title" placeholder="New Todo" />
-    <input type="number" id="todo-price" placeholder="Price" />
-    <button id="add-todo-btn">Add Todo</button>
+        <!-- Step 2: Ввести код -->
+        <div id="step-code" style="display: none">
+          <input type="text" id="reset-code" placeholder="Введите код" />
+          <button id="verify-reset-code-btn">Проверить код</button>
+        </div>
 
-    <!-- Поиск -->
-    <input type="text" id="search-query" placeholder="Search by name" />
-    <button id="search-btn">Search</button>
+        <!-- Step 3: Новый пароль -->
+        <div id="step-new-password" style="display: none">
+          <input
+            type="password"
+            id="reset-new-password"
+            placeholder="Новый пароль"
+          />
+          <button id="set-new-password-btn">Сменить пароль</button>
+        </div>
 
-    <!-- Список задач -->
-    <ul id="todo-list"></ul>
+        <button id="close-reset-modal" style="margin-top: 10px">Закрыть</button>
+      </div>
+    </div>
 
-    <!-- Excel -->
-    <button id="download-excel-btn">Download Excel</button>
+    <!-- Кнопка "Забыли пароль?" под входом -->
+    <button id="open-reset-modal-btn" style="margin-top: 10px">
+      Забыли пароль?
+    </button>
 
-    <!-- Logout -->
-    <button id="logout-btn">Logout</button>
-  </section>
+    <!-- Todo List -->
+    <section id="todo-section" style="display: none">
+      <h2>Todo List</h2>
 
-  <script src="./script.js"></script>
-</body>
+      <!-- Добавление новой задачи -->
+      <input type="text" id="todo-title" placeholder="New Todo" />
+      <input type="number" id="todo-price" placeholder="Price" />
+      <button id="add-todo-btn">Add Todo</button>
+
+      <!-- Поиск -->
+      <input type="text" id="search-query" placeholder="Search by name" />
+      <button id="search-btn">Search</button>
+
+      <!-- Список задач -->
+      <ul id="todo-list"></ul>
+
+      <!-- Excel -->
+      <button id="download-excel-btn">Download Excel</button>
+
+      <!-- Logout -->
+      <button id="logout-btn">Logout</button>
+    </section>
+
+    <script src="./script.js"></script>
+  </body>
 </html>

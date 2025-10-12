@@ -7,6 +7,7 @@ const API =
 let token = localStorage.getItem("token");
 
 // ----------------- DOM ELEMENTS -----------------
+const emailInput = document.getElementById("email");
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const signupBtn = document.getElementById("signup-btn");
@@ -61,6 +62,7 @@ signupBtn.addEventListener("click", async () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        email: emailInput.value,
         username: usernameInput.value,
         password: passwordInput.value,
       }),
@@ -90,6 +92,7 @@ signinBtn.addEventListener("click", async () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        email: emailInput.value,
         username: usernameInput.value,
         password: passwordInput.value,
       }),
@@ -210,4 +213,105 @@ logoutBtn.addEventListener("click", () => {
   localStorage.removeItem("token");
   todoSection.style.display = "none";
   document.getElementById("auth-section").style.display = "block";
+});
+// ----------------- RESET PASSWORD -----------------
+const resetModal = document.getElementById("reset-password-modal");
+const openResetBtn = document.getElementById("open-reset-modal-btn");
+const closeResetBtn = document.getElementById("close-reset-modal");
+
+const stepEmail = document.getElementById("step-email");
+const stepCode = document.getElementById("step-code");
+const stepNewPassword = document.getElementById("step-new-password");
+
+const resetEmailInput = document.getElementById("reset-email");
+const resetCodeInput = document.getElementById("reset-code");
+const resetNewPasswordInput = document.getElementById("reset-new-password");
+
+const sendResetCodeBtn = document.getElementById("send-reset-code-btn");
+const verifyResetCodeBtn = document.getElementById("verify-reset-code-btn");
+const setNewPasswordBtn = document.getElementById("set-new-password-btn");
+
+// Открыть модалку
+openResetBtn.addEventListener("click", () => {
+  resetModal.style.display = "flex";
+  stepEmail.style.display = "block";
+  stepCode.style.display = "none";
+  stepNewPassword.style.display = "none";
+});
+
+// Закрыть модалку
+closeResetBtn.addEventListener("click", () => {
+  resetModal.style.display = "none";
+});
+
+// 1️⃣ Отправка кода на email
+sendResetCodeBtn.addEventListener("click", async () => {
+  const email = resetEmailInput.value.trim();
+  if (!email) return alert("Введите email");
+
+  try {
+    const res = await fetch(`${API}/request-reset-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    }).then(r => r.json());
+
+    if (res.message) {
+      alert(res.message);
+      stepEmail.style.display = "none";
+      stepCode.style.display = "block";
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// 2️⃣ Проверка кода
+verifyResetCodeBtn.addEventListener("click", async () => {
+  const email = resetEmailInput.value.trim();
+  const token = resetCodeInput.value.trim();
+  if (!token) return alert("Введите код");
+
+  try {
+    const res = await fetch(`${API}/verify-reset-code`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, token }),
+    }).then(r => r.json());
+
+    if (res.message === "Код верный") {
+      stepCode.style.display = "none";
+      stepNewPassword.style.display = "block";
+    } else {
+      alert(res.message);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// 3️⃣ Установка нового пароля
+setNewPasswordBtn.addEventListener("click", async () => {
+  const email = resetEmailInput.value.trim();
+  const token = resetCodeInput.value.trim();
+  const newPassword = resetNewPasswordInput.value.trim();
+
+  if (!newPassword) return alert("Введите новый пароль");
+
+  try {
+    const res = await fetch(`${API}/reset-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, token, newPassword }),
+    }).then(r => r.json());
+
+    if (res.message === "Пароль успешно обновлён") {
+      alert("Пароль изменён! Войдите снова.");
+      resetModal.style.display = "none";
+    } else {
+      alert(res.message);
+    }
+  } catch (err) {
+    console.error(err);
+  }
 });
