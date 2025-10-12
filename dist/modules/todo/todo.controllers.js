@@ -88,7 +88,7 @@ const updateData = (req, res) => {
         data[index] = { ...data[index], ...updatedData };
         res.status(200).json({
             message: "Продукт успешно обновлены",
-            data,
+            data: data[index]
         });
     }
     catch (error) {

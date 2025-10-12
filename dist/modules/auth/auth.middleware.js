@@ -11,7 +11,7 @@ const authMiddleware = (req, res, next) => {
         if (!token) {
             return res.status(401).json({
                 success: false,
-                message: "Токен не найден. Доступ запрещён.",
+                message: "Unauthorized",
             });
         }
         const secret = process.env.JWT_SECRET;
