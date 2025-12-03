@@ -68,8 +68,8 @@ const requestResetPassword = async (req, res) => {
     const user = exports.users.find(u => u.email === email);
     if (!user)
         return res.status(404).json({ message: "Пользователь не найден" });
-    const token = (0, uuid_1.v4)().slice(0, 6); // короткий код для проверки
-    const expires = Date.now() + 15 * 60 * 1000; // 15 минут
+    const token = (0, uuid_1.v4)().slice(0, 6);
+    const expires = Date.now() + 15 * 60 * 1000;
     auth_resetTokens_1.resetTokens.push({ token, userId: user.id, expires });
     await (0, nodemailer_1.sendEmail)(email, "Код для сброса пароля", `Ваш код: ${token}`);
     res.status(200).json({ message: "Код отправлен на email" });
@@ -101,7 +101,6 @@ const resetPassword = async (req, res) => {
     if (!stored || stored.expires < Date.now())
         return res.status(400).json({ message: "Неверный или просроченный код" });
     user.password = await bcryptjs_1.default.hash(newPassword, 10);
-    // Удаляем использованный токен
     const index = auth_resetTokens_1.resetTokens.findIndex(rt => rt.userId === user.id && rt.token === token);
     if (index !== -1)
         auth_resetTokens_1.resetTokens.splice(index, 1);

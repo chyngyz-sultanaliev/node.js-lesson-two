@@ -79,8 +79,8 @@ export const requestResetPassword = async (req: Request, res: Response) => {
   const user = users.find(u => u.email === email);
   if (!user) return res.status(404).json({ message: "Пользователь не найден" });
 
-  const token = uuidv4().slice(0, 6); // короткий код для проверки
-  const expires = Date.now() + 15 * 60 * 1000; // 15 минут
+  const token = uuidv4().slice(0, 6);
+  const expires = Date.now() + 15 * 60 * 1000;
 
   resetTokens.push({ token, userId: user.id, expires });
 
@@ -89,35 +89,49 @@ export const requestResetPassword = async (req: Request, res: Response) => {
   res.status(200).json({ message: "Код отправлен на email" });
 };
 
+
 // 2️⃣ Проверка кода
 export const verifyResetCode = (req: Request, res: Response) => {
   const { email, token } = req.body;
-  if (!email || !token) return res.status(400).json({ message: "Email и код обязательны" });
+
+  if (!email || !token)
+    return res.status(400).json({ message: "Email и код обязательны" });
 
   const user = users.find(u => u.email === email);
   if (!user) return res.status(404).json({ message: "Пользователь не найден" });
 
-  const stored = resetTokens.find(rt => rt.userId === user.id && rt.token === token);
-  if (!stored || stored.expires < Date.now()) return res.status(400).json({ message: "Неверный или просроченный код" });
+  const stored = resetTokens.find(
+    rt => rt.userId === user.id && rt.token === token
+  );
+
+  if (!stored || stored.expires < Date.now())
+    return res.status(400).json({ message: "Неверный или просроченный код" });
 
   res.status(200).json({ message: "Код верный" });
 };
 
+
 // 3️⃣ Сброс пароля
 export const resetPassword = async (req: Request, res: Response) => {
   const { email, token, newPassword } = req.body;
-  if (!email || !token || !newPassword) return res.status(400).json({ message: "Все поля обязательны" });
+  if (!email || !token || !newPassword)
+    return res.status(400).json({ message: "Все поля обязательны" });
 
   const user = users.find(u => u.email === email);
   if (!user) return res.status(404).json({ message: "Пользователь не найден" });
 
-  const stored = resetTokens.find(rt => rt.userId === user.id && rt.token === token);
-  if (!stored || stored.expires < Date.now()) return res.status(400).json({ message: "Неверный или просроченный код" });
+  const stored = resetTokens.find(
+    rt => rt.userId === user.id && rt.token === token
+  );
+
+  if (!stored || stored.expires < Date.now())
+    return res.status(400).json({ message: "Неверный или просроченный код" });
 
   user.password = await bcrypt.hash(newPassword, 10);
 
-  // Удаляем использованный токен
-  const index = resetTokens.findIndex(rt => rt.userId === user.id && rt.token === token);
+  const index = resetTokens.findIndex(
+    rt => rt.userId === user.id && rt.token === token
+  );
   if (index !== -1) resetTokens.splice(index, 1);
 
   res.status(200).json({ message: "Пароль успешно обновлён" });
